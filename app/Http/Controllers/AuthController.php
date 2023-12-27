@@ -7,11 +7,14 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
-    public function index(){
-        return response()->json(Auth::user());
+    public function userDetail(){
+        $user = new UserResource(Auth::user());
+
+        return response()->json($user);
     }
     public function register(Request $request){
         $request->validate([
@@ -37,6 +40,7 @@ class AuthController extends Controller
             'message' => 'Register success!'
         ]);
     }
+
     public function login(Request $request){
         $request->validate([
             'email' => 'required',
@@ -53,6 +57,29 @@ class AuthController extends Controller
             'message' => 'Login success!',
             'token' => $user->createToken('token_id')->plainTextToken
         ]);        
+    }
+
+    public function update($id, Request $request){
+        if($id != Auth::user()->id){
+            return response()->json([
+                'message' => 'Update failed!'
+            ]);
+        }
+
+        $request->validate([
+            'username' => ['required'],
+            'email' => ['required', 'email'],
+        ]);
+        
+        $data = User::findOrFail($id);
+
+        $data->update([
+            'username' => $request->username,
+            'email' => $request->email,
+        ]);
+        return response()->json([
+            'message' => 'Update success!'
+        ]);
     }
 
     public function logout(Request $request){
