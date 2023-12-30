@@ -32,7 +32,7 @@ class PostController extends Controller
         $post = Post::find($id);
         if($post->user_id != Auth::user()->id){
             return response()->json([
-                'message' => 'Update failed!'
+                'message' => 'Update gagal!'
             ]);
         }
 
@@ -61,12 +61,6 @@ class PostController extends Controller
         $post->delete();
         return response()->json([
             'message' => 'Post berhasil dihapus!'
-        ]);
-
-
-        return response()->json([
-            'author' => $post->user_id,
-            'editor' => Auth::user()->id
         ]);
     }
 }
