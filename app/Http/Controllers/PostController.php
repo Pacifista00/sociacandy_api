@@ -29,7 +29,7 @@ class PostController extends Controller
     }
     
     public function update($id, Request $request){
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         if($post->user_id != Auth::user()->id){
             return response()->json([
                 'message' => 'Update gagal!'
@@ -39,10 +39,8 @@ class PostController extends Controller
         $request->validate([
             'content' => ['required'],
         ]);
-        
-        $data = Post::findOrFail($id);
 
-        $data->update([
+        $post->update([
             'content' => $request->content,
         ]);
         return response()->json([

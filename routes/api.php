@@ -29,18 +29,18 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     
     // user
-    Route::get('/userDetail', [AuthController::class, 'userDetail']);
+    Route::get('/user/{id}', [AuthController::class, 'show']);
     Route::put('/user/{id}', [AuthController::class, 'update']);
     
     // post
     Route::post('/post', [PostController::class, 'store']);
     Route::get('/post/{id}', [PostController::class, 'show']);
-    Route::put('/post/{id}', [PostController::class, 'update']);
-    Route::delete('/deletePost/{id}', [PostController::class, 'destroy']);
+    Route::put('/post/{id}/update', [PostController::class, 'update']);
+    Route::delete('/post/{id}/delete', [PostController::class, 'destroy']);
     
     // comment
     Route::post('/comment/{postId}', [CommentController::class, 'store']);
     Route::get('/comment/{id}', [CommentController::class, 'show']);
-    Route::put('/comment/{Id}', [CommentController::class, 'update']);
-    Route::delete('/deleteComment/{Id}', [CommentController::class, 'destroy']);
+    Route::put('/comment/{Id}/update', [CommentController::class, 'update']);
+    Route::delete('/comment/{Id}/delete', [CommentController::class, 'destroy']);
 });

@@ -11,8 +11,8 @@ use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
-    public function userDetail(){
-        $user = new UserResource(Auth::user());
+    public function show($id){
+        $user = new UserResource(User::findOrFail($id));
 
         return response()->json($user);
     }
